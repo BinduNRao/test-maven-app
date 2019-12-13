@@ -4,27 +4,85 @@
 	
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>com.example</groupId>
+	<groupId>test-maven-app</groupId>
 	<artifactId>hello</artifactId>
 	<version>0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+<!-- Ran this cmd in adminstartor mode to resolve build failure mvn -Dhttps.protocols=TLSv1.2 install	 -->
+	<repositories>
+		<repository>
+		  <id>central</id>
+		  <name>Maven Repository Switchboard</name>
+		  <layout>default</layout>
+		  <url>http://repo1.maven.org/maven2</url>
+		  <snapshots>
+			<enabled>false</enabled>
+		  </snapshots>
+		</repository>
+    </repositories>
+
+	  <pluginRepositories>
+		<pluginRepository>
+		  <id>central</id>
+		  <name>Maven Plugin Repository</name>
+		  <url>http://repo1.maven.org/maven2</url>
+		  <layout>default</layout>
+		  <snapshots>
+			<enabled>false</enabled>
+		  </snapshots>
+		  <releases>
+			<updatePolicy>never</updatePolicy>
+		  </releases>
+		</pluginRepository>
+	  </pluginRepositories>
+<!-- 	<repositories>
+		<repository>
+		<id>central</id>
+		<name>Central Repository</name>
+		<url>http://repo.maven.apache.org/maven2</url>
+		<layout>default</layout>
+		<snapshots>
+			<enabled>false</enabled>
+		</snapshots>
+		</repository>
+	</repositories> -->
+	<url>http://maven.apache.org</url>
 	<build>
-		<finalName>hello</finalName>
+		<finalName>hello</finalName>		
 		
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+				  <execution>
+					<id>id.clean</id>
+					<phase>clean</phase>					
+					<goals>
+					  <goal>run</goal>
+					</goals>
+					<configuration>
+						<target>
+							<echo>===========================</echo>
+							<echo>Clean Phase</echo>
+							<echo>===========================</echo>
+						</target>
+					</configuration>
+				  </execution>
+				</executions>
+		    </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<debug>false</debug>
-					<skip>true</skip>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -38,9 +96,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19.1</version>
+				<version>2.12</version>
 				<configuration>
-					<skip>true</skip>
+					<testFailureIgnore>true</testFailureIgnore>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -48,6 +106,40 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.0.2</version>
 			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+					<id>auto-clean</id>
+					<phase>initialize</phase>
+					<goals>
+						<goal>clean</goal>
+					</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- exec-maven-plugin command to execute mvn exec:exec -->
+<!-- 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<configuration>
+					  <executable>mvn</executable>					  
+					  <arguments>
+						<argument>-version</argument>						
+					  </arguments>
+				</configuration>
+			</plugin> -->
+<!-- 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+			</plugin> -->
+
 		</plugins>
 	</build>
 	
